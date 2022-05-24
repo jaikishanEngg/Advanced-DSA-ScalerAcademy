@@ -12,10 +12,10 @@ class Solution:
 
         size = len(input_array)
         for i in range(size):
-            for j in range(i+1, size):
-                if input_array[i] > input_array[j]:
+            for j in range(size-i-1):
+                if input_array[j] > input_array[j+1]:
                    #swap
-                   input_array[i], input_array[j] = input_array[j], input_array[i]
+                   input_array[j], input_array[j+1] = input_array[j+1], input_array[j]
         
         return input_array
         #Time: O(N**2)
@@ -26,3 +26,7 @@ ans = s.bubbleSort(A)
 #print(ans)
 assert ans == [2, 3, 4, 5, 6, 7, 8, 9, 11]
                     
+A = [9]
+ans = s.bubbleSort(A)
+#print(ans)
+assert ans == [9]
