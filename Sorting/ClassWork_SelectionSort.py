@@ -1,3 +1,8 @@
+#
+# Created on Tue May 24 2022
+# Copyright (c) 2022 Scaler Academy #DSA
+# @author JaiKishan
+#
 class Solution:
     def selectionSort(self, input_array):
         #inplace 
