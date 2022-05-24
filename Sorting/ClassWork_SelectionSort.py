@@ -14,7 +14,8 @@ class Solution:
             #swap elements at i,j indices
             if minElementIndex:
                 input_array[i], input_array[j] = input_array[j], input_array[i]
-
+        
+        return input_array
 
     def selectionSortStableVersion(self, input_array):
         #inplace 
@@ -37,7 +38,10 @@ class Solution:
                     input_array[k+1] = input_array[k]
             
                 input_array[i] = minElement
+        
+        return input_array
 
 s = Solution()
 A = [2,5,2,1,6]
-s.selectionSortStableVersion(A)
+ans = s.selectionSortStableVersion(A)
+assert ans == [1,2,2,5,6]
