@@ -10,6 +10,9 @@ class Solution:
         #that leads to moving the bigger element at its last position in each iteration
         #i.e., bubbling up the larger bubble at its last position -- Bubble sort
 
+        #this is stable and inplace algorithm
+        #O(n**2) swaps
+        
         size = len(input_array)
         for i in range(size):
             for j in range(size-i-1):
