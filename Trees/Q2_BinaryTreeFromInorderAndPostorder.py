@@ -48,8 +48,6 @@ Explanation 1:
 
 '''
 # Definition for a  binary tree node
-from logging import root
-
 
 class TreeNode:
     def __init__(self, x):
