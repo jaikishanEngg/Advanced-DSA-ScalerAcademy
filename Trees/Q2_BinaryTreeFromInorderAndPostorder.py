@@ -59,34 +59,34 @@ class Solution:
 	# @param A : list of integers
 	# @param B : list of integers
 	# @return the root node in the tree
-    def __init__(self):
-        self.postIndex = -1
-
-    def buildTreeFromInorderandPreorder(self, inorderList, postorderList, inorderStartIndex, inorderEndIndex):
+    
+    def buildTreeFromInorderandPostorder(self, inorderList, postorderList, inorderStartIndex, inorderEndIndex, rootPositioninPostorder):
         #scan from postorderList in reverse to fetch the root node
-        if self.postIndex < 0 or inorderStartIndex > inorderEndIndex:
+        if inorderStartIndex > inorderEndIndex:
             return
 
-        rootNode = TreeNode(postorderList[self.postIndex])
-        self.postIndex -= 1
+        currentRootNode = TreeNode(postorderList[rootPositioninPostorder])
 
-        rootNodeIndex = inorderList.index(rootNode.val) #search for the rootNode position in the inorder list
+        inorderRootNodePosition = self.inorderDictionary[currentRootNode.val] #search for the rootNode position in the inorder list
 
         if inorderEndIndex == inorderStartIndex:
-            return rootNode
+            return currentRootNode
 
-        rootNode.right = self.buildTreeFromInorderandPreorder(inorderList, postorderList, rootNodeIndex+1,  inorderEndIndex)
-        rootNode.left = self.buildTreeFromInorderandPreorder(inorderList, postorderList, inorderStartIndex, rootNodeIndex - 1)
+        currentRootNode.right = self.buildTreeFromInorderandPostorder(inorderList, postorderList, inorderRootNodePosition+1,  inorderEndIndex, rootPositioninPostorder - 1)
+        currentRootNode.left = self.buildTreeFromInorderandPostorder(inorderList, postorderList, inorderStartIndex, inorderRootNodePosition - 1, rootPositioninPostorder - (inorderEndIndex - inorderRootNodePosition) - 1)
         
+        return currentRootNode
 
-        return rootNode
         
 ########################################
     def buildTree(self, inorderList, postorderList):
         totalNodes = len(postorderList)
-        self.postIndex = totalNodes - 1
-
-        return self.buildTreeFromInorderandPreorder(inorderList, postorderList, 0, len(inorderList)-1)
+        self.inorderDictionary = dict()
+        for i in range(totalNodes):
+            element = inorderList[i]
+            if element not in self.inorderDictionary:
+                self.inorderDictionary[element] = i
+        return self.buildTreeFromInorderandPostorder(inorderList, postorderList, 0, len(inorderList)-1, rootPositioninPostorder = totalNodes-1)
     
     def preorderTraversal(self, root):
         if root == None:
@@ -102,12 +102,21 @@ class Solution:
         self.postorderTraversal(root.right)
         print(root.val, end = "  ")
     
+    def inorderTraversal(self, root):
+        if root == None:
+            return
+        self.inorderTraversal(root.left)
+        print(root.val, end = "  ")
+        self.inorderTraversal(root.right)
+        
 
 #inorderList = [ 17, 12, 24, 13, 2, 22, 9, 20, 18, 23, 3, 15, 21, 10, 4, 11, 19, 14, 16, 7, 1, 5, 6, 8 ]
 #postorderList = [ 17, 13, 2, 22, 24, 18, 20, 9, 15, 3, 11, 4, 10, 14, 16, 19, 1, 7, 21, 23, 12, 6, 8, 5 ]
 
-inorderList = [ 7, 5, 6, 2, 3, 1, 4 ]
-postorderList =  [ 5, 6, 3, 1, 4, 2, 7 ]
+#inorderList = [ 7, 5, 6, 2, 3, 1, 4 ]
+#postorderList =  [ 5, 6, 3, 1, 4, 2, 7 ]
+inorderList = [4,8,2,5,1,6,3,7]
+postorderList = [8,4,5,2,6,7,3,1]
 
 s = Solution()
 _rootNode = s.buildTree(inorderList, postorderList)
@@ -116,7 +125,9 @@ s.preorderTraversal(_rootNode)
 print("\n************")
 print("post-order traversal")
 s.postorderTraversal(_rootNode)
-
+print("\n************")
+print("in-order traversal")
+s.inorderTraversal(_rootNode)
 
 
 
