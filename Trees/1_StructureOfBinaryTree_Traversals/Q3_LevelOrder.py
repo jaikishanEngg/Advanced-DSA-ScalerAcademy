@@ -66,8 +66,6 @@ class Solution:
         self.levelOrderTraversal = []
         self.queue = []
 	
-    # @param A : root node of tree
-	# @return a list of list of integers
     def levelOrder(self, root):
         if root == None:
             return
@@ -90,6 +88,31 @@ class Solution:
             self.levelOrderTraversal.append(elementsOfsamelevel)
         
         return self.levelOrderTraversal
+
+    def levelOrderApproach2(self, rootNode):
+        if rootNode == None:
+            return
+        queue = []
+        queue.append(rootNode)
+        queue.append(None)
+        levelorderTraversal = []
+
+        levelNodes = []
+        while(queue):
+            currentNode = queue.pop(0) #deque the front node from the queue
+            if currentNode:
+                levelNodes.append(currentNode.val)
+                if currentNode.left:
+                    queue.append(currentNode.left)
+                if currentNode.right:
+                    queue.append(currentNode.right)
+            else:
+                levelorderTraversal.append(levelNodes)
+                levelNodes = []
+                if len(queue) > 0:
+                    queue.append(None)
+        
+        return levelorderTraversal            
 
 '''
             3
@@ -117,5 +140,8 @@ two.left = TreeNode(5)
 twenty.left = TreeNode(13)
 twenty.right = TreeNode(7)
 
-ans = s.levelOrder(root)
+#ans = s.levelOrder(root)
+#print(ans)
+
+ans = s.levelOrderApproach2(root)
 print(ans)
